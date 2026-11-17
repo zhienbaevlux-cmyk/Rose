@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Для Розы 🌹</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg1:#fff3f6;--bg2:#fbd9e3;--rose:#e58aa5;--deep:#9b3d5c;--ink:#4d2433;--card:rgba(255,255,255,.62);--line:#f1b9c9;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--bg1:#2a1620;--bg2:#4a2233;--rose:#f09ab4;--deep:#ffc2d4;--ink:#ffe9ef;--card:rgba(255,255,255,.07);--line:#7a3b52}
+}
+:root[data-theme="dark"]{--bg1:#2a1620;--bg2:#4a2233;--rose:#f09ab4;--deep:#ffc2d4;--ink:#ffe9ef;--card:rgba(255,255,255,.07);--line:#7a3b52}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100%;font-family:'Jost',system-ui,sans-serif;color:var(--ink);
+  background:radial-gradient(120% 80% at 50% 0%,var(--bg2),var(--bg1) 70%) fixed;background-color:var(--bg1);
+  display:flex;align-items:center;justify-content:center;overflow-x:hidden}
+.petals{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+.petals i{position:absolute;top:-30px;width:10px;height:14px;background:var(--rose);opacity:.35;border-radius:60% 0 60% 0;animation:fall linear infinite}
+@keyframes fall{to{transform:translate3d(var(--dx),110vh,0) rotate(540deg)}}
+main{position:relative;width:100%;max-width:440px;padding:28px 22px}
+.screen{display:none;text-align:center}
+.screen.on{display:block;animation:in .7s ease both}
+@keyframes in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+h1,h2{font-family:'Cormorant Garamond',serif;font-weight:400;font-style:italic;color:var(--deep);margin:0 0 10px;line-height:1.1}
+h1{font-size:clamp(46px,14vw,64px)}
+h2{font-size:clamp(34px,10vw,42px)}
+.sub{font-weight:300;font-size:16px;margin:0 0 30px;opacity:.8}
+.heart{font-size:34px;margin-bottom:18px;display:block}
+.row{display:flex;flex-direction:column;gap:12px;align-items:center}
+button{font:inherit;cursor:pointer;border:1px solid var(--line);color:var(--deep);background:var(--card);
+  padding:14px 28px;border-radius:999px;font-size:17px;transition:transform .2s,background .2s,color .2s;min-width:200px;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid var(--rose);outline-offset:3px}
+button.primary{background:var(--rose);color:#fff;border-color:var(--rose)}
+button.primary:hover{transform:scale(1.04)}
+#no{min-width:200px;min-height:50px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-bottom:26px}
+.chips button{min-width:0;padding:11px 18px;font-size:16px}
+.chips button.sel{background:var(--rose);color:#fff;border-color:var(--rose)}
+.lbl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--deep);margin:0 0 12px}
+input{font:inherit;width:100%;max-width:300px;padding:12px 18px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-align:center;margin:-8px 0 24px;outline:none}
+input:focus{border-color:var(--rose)}
+.letter{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:34px 24px;text-align:center;backdrop-filter:blur(6px)}
+.letter .to{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;color:var(--deep);margin:0 0 14px}
+.letter p{margin:0 0 6px;font-weight:300;font-size:17px}
+.big{font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--deep);margin:2px 0 14px!important;line-height:1.2}
+.from{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:26px;color:var(--deep);margin-top:22px!important}
+.hr{width:48px;height:1px;background:var(--line);margin:18px auto}
+.small{font-size:14px;opacity:.7;margin-top:16px}
+@media (prefers-reduced-motion:reduce){.petals{display:none}.screen.on{animation:none}}
+</style>
+</head>
+<body>
+<div class="petals" id="petals" aria-hidden="true"></div>
+<main>
+
+<section class="screen on" id="s1">
+  <span class="heart">🌸</span>
+  <h1>Идём на свидание?</h1>
+  <p class="sub">У меня для тебя небольшой сюрприз</p>
+  <div class="row">
+    <button class="primary" id="yes">Конечно, любимый</button>
+    <button id="no" aria-label="Облезешь">Облезешь</button>
+  </div>
+</section>
+
+<section class="screen" id="s2">
+  <span class="heart">💗</span>
+  <h2>Когда тебе удобно?</h2>
+  <p class="sub">Выбери день и время</p>
+  <p class="lbl">День</p>
+  <div class="chips" id="dates"></div>
+  <p class="lbl">Время</p>
+  <div class="chips" id="times"></div>
+  <button class="primary" id="n2" disabled style="opacity:.5">Дальше</button>
+</section>
+
+<section class="screen" id="s3">
+  <span class="heart">🍽️</span>
+  <h2>Что будем кушать?</h2>
+  <p class="sub">Выбери то, что хочется больше всего</p>
+  <div class="chips" id="foods"></div>
+  <input id="other" placeholder="Напиши, что хочешь" style="display:none">
+  <button class="primary" id="n3" disabled style="opacity:.5">Готово</button>
+</section>
+
+<section class="screen" id="s4">
+  <div class="letter">
+    <span class="heart">🌹</span>
+    <p class="to">Получатель: Роза🌹</p>
+    <div class="hr"></div>
+    <p>Мы идём на свидание</p>
+    <p class="big" id="rDate"></p>
+    <p>и будем кушать</p>
+    <p class="big" id="rFood"></p>
+    <div class="hr"></div>
+    <p class="from">От Иско 💌</p>
+  </div>
+  <p class="small">Сделай скриншот и отправь мне 💗</p>
+</section>
+
+</main>
+<script>
+(function(){
+  var show=function(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});document.getElementById(id).classList.add('on');window.scrollTo(0,0)};
+  var pw=document.getElementById('petals');
+  for(var i=0;i<14;i++){var p=document.createElement('i');p.style.left=Math.random()*100+'%';p.style.setProperty('--dx',(Math.random()*120-60)+'px');p.style.animationDuration=(9+Math.random()*9)+'s';p.style.animationDelay=(-Math.random()*14)+'s';pw.appendChild(p)}
+
+  document.getElementById('yes').onclick=function(){show('s2')};
+  var no=document.getElementById('no');
+  var kiss=function(e){no.textContent='💋';if(e&&e.preventDefault)e.preventDefault()};
+  no.addEventListener('pointerenter',kiss);
+  no.addEventListener('click',kiss);
+
+  var dSel=null,tSel=null,fSel=null;
+  var days=[18,19,20,21,22,23,24,25];
+  var times=['14:00','15:00','16:00','17:00','18:00'];
+  var foods=[['🍕','Пицца'],['🍣','Суши'],['🍔','Бургеры'],['🌯','Донер'],['🍜','Рамен'],['✨','Что-то другое']];
+  function chips(id,items,label,onPick){
+    var box=document.getElementById(id);
+    items.forEach(function(it,idx){
+      var b=document.createElement('button');b.type='button';b.textContent=label(it);
+      b.onclick=function(){box.querySelectorAll('button').forEach(function(x){x.classList.remove('sel')});b.classList.add('sel');onPick(it,idx)};
+      box.appendChild(b);
+    });
+  }
+  function enable(btn,ok){btn.disabled=!ok;btn.style.opacity=ok?1:.5}
+  var n2=document.getElementById('n2'),n3=document.getElementById('n3'),other=document.getElementById('other');
+  chips('dates',days,function(d){return d+' ноября'},function(d){dSel=d;enable(n2,dSel&&tSel)});
+  chips('times',times,function(t){return t},function(t){tSel=t;enable(n2,dSel&&tSel)});
+  chips('foods',foods,function(f){return f[0]+' '+f[1]},function(f,i){
+    fSel=f;var isOther=i===5;other.style.display=isOther?'block':'none';
+    enable(n3,true);
+  });
+  n2.onclick=function(){show('s3')};
+  n3.onclick=function(){
+    var food=fSel[1];
+    if(fSel[1]==='Что-то другое'&&other.value.trim())food=other.value.trim();
+    document.getElementById('rDate').textContent=dSel+' ноября в '+tSel;
+    document.getElementById('rFood').textContent=(fSel[1]==='Что-то другое'?'✨ ':fSel[0]+' ')+food;
+    show('s4');
+  };
+})();
+</script>
+</body>
+</html>
